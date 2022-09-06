@@ -28,7 +28,7 @@ loadWelcome = () => {
     promptUser();
 };
 
-// asks user what they'd like to do.
+// asks user what they'd like to do. runs various functions based on user response.
 function promptUser() {
     inquirer.prompt([
         {
@@ -99,57 +99,74 @@ function promptUser() {
         });
 };
 
-// functions for switch cases
+// -------------------- functions for switch cases -------------------- \\
+
 function showDepartments() {
-    console.log('showing departments...');
+    console.log('showing departments...\n');
+    const sql = `SELECT department.id AS id, department.name AS department FROM department`;
+
+    db.query(sql, (err, res) => {
+        if (err) throw err;
+        console.table(res);
+        promptUser();
+    });
 };
 
 function showRoles() {
-    console.log('showing roles...');
+    console.log('showing roles...\n');
+    const sql = `SELECT role.id, role.title, department.name AS department
+               FROM role
+               INNER JOIN department ON role.department_id = department.id`;
+    
+    db.query(sql, (err, res) => {
+        if (err) throw err;
+        console.table(res);
+        promptUser();
+    });
 };
 
 function viewEmployees() {
-    console.log('viewing employees...');
+    console.log('viewing employees...\n');
 };
 
 function addDepartment() {
-    console.log('adding a department...');
+    console.log('adding a department...\n');
 };
 
 function addRole() {
-    console.log('adding a role...');
+    console.log('adding a role...\n');
 };
 
 function addEmployee() {
-    console.log('adding an employee...');
+    console.log('adding an employee...\n');
 };
 
 function updateEmployeeRole() {
-    console.log('updating employee role...');
+    console.log('updating employee role...\n');
 };
 
 function updateEmployeeManager() {
-    console.log("updating employee's manager...");
+    console.log("updating employee's manager...\n");
 };
 
 function viewEmployeesByDpt() {
-    console.log('viewing employees by department...');
+    console.log('viewing employees by department...\n');
 };
 
 function deleteDepartment() {
-    console.log('deleting department...');
+    console.log('deleting department...\n');
 };
 
 function deleteRole() {
-    console.log('deleting role...');
+    console.log('deleting role...\n');
 };
 
 function deleteEmployee() {
-    console.log('deleting employee...');
+    console.log('deleting employee...\n');
 };
 
 function viewBudgets() {
-    console.log('viewing budgets');
+    console.log('viewing budgets\n');
 };
 
 
