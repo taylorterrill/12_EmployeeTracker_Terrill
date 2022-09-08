@@ -114,10 +114,11 @@ function showDepartments() {
 
 function showRoles() {
     console.log('showing roles...\n');
-    const sql = `SELECT role.id, role.title, department.name AS department
-               FROM role
-               INNER JOIN department ON role.department_id = department.id`;
-    
+    const sql = `SELECT 
+                role.id, role.title, department.name AS department
+                FROM role
+                INNER JOIN department ON role.department_id = department.id`;
+
     db.query(sql, (err, res) => {
         if (err) throw err;
         console.table(res);
@@ -127,10 +128,53 @@ function showRoles() {
 
 function viewEmployees() {
     console.log('viewing employees...\n');
+    const sql = `SELECT 
+                    employee.id, 
+                    employee.first_name, 
+                    employee.last_name, 
+                    role.title, 
+                    department.name AS department,
+                    role.salary, 
+                    CONCAT (manager.first_name, " ", manager.last_name) AS manager
+               FROM employee
+                    LEFT JOIN role ON employee.role_id = role.id
+                    LEFT JOIN department ON role.department_id = department.id
+                    LEFT JOIN employee manager ON employee.manager_id = manager.id`;
+
+    db.query(sql, (err, res) => {
+        if (err) throw err;
+        console.table(res);
+        promptUser();
+    })
 };
 
 function addDepartment() {
     console.log('adding a department...\n');
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'addDept',
+            message: 'What is the name of the department you would like to add?',
+            validate: addDept => {
+                if (addDept) {
+                    return true;
+                } else {
+                    console.log('Please enter a valid department name.');
+                    return false;
+                }
+            }
+        }
+    ]).then (answer => {
+        const sql = `INSERT INTO department (name)
+        VALUES (?)`;
+
+        db.query(sql, answer.addDept, (err, res) => {
+            if (err) throw err;
+            console.log('Successfully added ' + answer.addDept + ' to list of departments.');
+
+            showDepartments();
+        });
+    });
 };
 
 function addRole() {
