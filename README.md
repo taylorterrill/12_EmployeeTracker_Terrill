@@ -4,7 +4,8 @@
 This command line employee tracker app uses Inquirer to gather user input and updates the employee database using SQL.
 
 ![Webpage Screenshot](./assets/Screenshot%202022-09-11%20182007.png)
-![Demo](https://youtu.be/IXKEBQhF0Fw)
+
+[Demo](https://youtu.be/IXKEBQhF0Fw)
 
 ## Table of Contents
 * [Installation](#installation)
